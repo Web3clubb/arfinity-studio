@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arfinity Studio — AI Video & Content Production</title>
+<meta name="description" content="Professional AI-powered video production. Product videos, social media content, music videos. Fast delivery. Worldwide clients.">
+<meta property="og:image" content="https://i.ibb.co/xSrgT4PZ/IMG-6157.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --void:#080504;--deep:#0d0908;--card:#141009;--surface:#1a1410;
+  --gold:#C8A45A;--gold2:#f0d080;--rose:#B03050;--rose2:#d45070;
+  --cream:#F0E8D0;--mist:rgba(240,232,208,.5);--ghost:rgba(240,232,208,.07);
+  --border:rgba(200,164,90,.15);
+}
+body{background:var(--void);color:var(--cream);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none}
+body::after{content:'';position:fixed;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:9990}
+
+/* CURSOR */
+#dot{position:fixed;width:7px;height:7px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference}
+#ring{position:fixed;width:30px;height:30px;border:1px solid rgba(200,164,90,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s,top .1s,width .3s,height .3s,opacity .3s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;transition:all .4s;z-index:800}
+nav.scrolled{background:rgba(8,5,4,.95);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:1.1rem 4rem}
+.nav-logo{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold2);font-style:italic;letter-spacing:.06em}
+.nav-logo b{font-style:normal;color:var(--cream);font-weight:400}
+.nav-right{display:flex;align-items:center;gap:2.5rem}
+.nav-link{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mist);text-decoration:none;cursor:none;transition:color .2s}
+.nav-link:hover{color:var(--gold)}
+.nav-cta{background:var(--gold);color:var(--void);padding:.5rem 1.4rem;font-family:'DM Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:none;transition:all .2s;text-decoration:none}
+.nav-cta:hover{background:var(--gold2);transform:translateY(-1px)}
+
+/* ═══════ HERO ═══════ */
+#hero{position:relative;height:100vh;min-height:700px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
+.hero-left{position:relative;z-index:10;display:flex;flex-direction:column;justify-content:center;padding:0 5rem 0 4rem;background:linear-gradient(to right,rgba(8,5,4,1) 60%,rgba(8,5,4,0) 100%)}
+.hero-right{position:relative;overflow:hidden}
+.hero-img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:brightness(.85) contrast(1.05);display:block}
+.hero-right::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(8,5,4,.8) 0%,rgba(8,5,4,.3) 40%,rgba(8,5,4,.1) 100%);z-index:1}
+.hero-right::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,rgba(8,5,4,1),transparent);z-index:1}
+.hero-canvas-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.h-tag{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:flex;align-items:center;gap:.8rem;opacity:0;animation:fadeUp .8s ease .3s forwards}
+.h-tag::before{content:'';width:28px;height:1px;background:var(--gold)}
+.h1{font-family:'Cinzel',serif;font-size:clamp(2.8rem,5vw,5rem);line-height:.95;font-weight:900;margin-bottom:1.6rem;letter-spacing:-.01em;opacity:0;animation:fadeUp 1s ease .5s forwards}
+.h1 em{display:block;font-style:italic;color:var(--gold);font-weight:400;font-size:clamp(3rem,5.5vw,5.5rem)}
+.h-p{font-size:1rem;color:var(--mist);line-height:1.8;max-width:440px;margin-bottom:2.5rem;font-weight:300;opacity:0;animation:fadeUp 1s ease .7s forwards}
+.h-btns{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;opacity:0;animation:fadeUp 1s ease .9s forwards}
+.btn-main{background:linear-gradient(135deg,var(--gold),#8a5e18);color:var(--void);padding:.95rem 2.2rem;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:none;transition:all .25s;text-decoration:none;display:inline-block}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(200,164,90,.3)}
+.btn-sec{background:transparent;border:1px solid rgba(200,164,90,.3);color:rgba(240,232,208,.7);padding:.95rem 2rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;cursor:none;transition:all .25s;text-decoration:none;display:inline-block}
+.btn-sec:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;z-index:20;opacity:0;animation:fadeUp .8s ease 1.4s forwards}
+.scroll-line{width:1px;height:50px;background:linear-gradient(var(--gold),transparent);animation:scPulse 2s ease infinite}
+.scroll-txt{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.3em;color:rgba(200,164,90,.4)}
+
+/* TRUST */
+.trust{display:flex;justify-content:center;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--deep)}
+.t-item{padding:1.1rem 2.5rem;border-right:1px solid var(--border);display:flex;align-items:center;gap:.7rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+.t-item:last-child{border-right:none}
+.t-em{font-size:.95rem}
+
+/* SECTION BASE */
+.sec{padding:7rem 4rem;position:relative}
+.sec::before{content:'';position:absolute;top:0;left:4rem;right:4rem;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.stag{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.7rem}
+.stag::after{content:'';flex:1;max-width:44px;height:1px;background:var(--gold);opacity:.3}
+.sh2{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;line-height:1.05;margin-bottom:.8rem;letter-spacing:.02em}
+.sh2 em{font-style:italic;color:var(--gold);font-weight:400}
+.ssub{color:var(--mist);font-size:.95rem;line-height:1.85;max-width:520px;font-weight:300;margin-top:.5rem}
+
+/* ═══════ SERVICES ═══════ */
+#services{background:var(--void)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--border);margin-top:3.5rem}
+.svc{background:var(--card);padding:2.4rem;position:relative;overflow:hidden;transition:background .3s;cursor:none}
+.svc-bar{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--rose));transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.svc:hover{background:var(--surface)}
+.svc:hover .svc-bar{transform:scaleX(1)}
+.svc-icon{font-size:2.2rem;margin-bottom:1.3rem;display:block}
+.svc-name{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.06em;color:var(--cream);margin-bottom:.7rem}
+.svc-desc{font-size:.84rem;color:var(--mist);line-height:1.8;font-weight:300;margin-bottom:1.2rem}
+.svc-pill{display:inline-flex;align-items:center;gap:.4rem;font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(200,164,90,.2);padding:.2rem .7rem;margin:.2rem}
+
+/* ═══════ NOOR SHOWCASE ═══════ */
+#showcase{background:var(--deep)}
+.showcase-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:4rem}
+.sc-img-wrap{position:relative;overflow:hidden}
+.sc-img{width:100%;height:100%;min-height:600px;object-fit:cover;object-position:center top;display:block;transition:transform 6s ease}
+.sc-img-wrap:hover .sc-img{transform:scale(1.04)}
+.sc-overlay{position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(13,9,8,1),transparent)}
+.sc-badge{position:absolute;bottom:2rem;left:2rem;background:linear-gradient(135deg,var(--gold),#7a4e10);color:var(--void);padding:.7rem 1.3rem;font-family:'DM Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.sc-txt{padding:4rem;display:flex;flex-direction:column;justify-content:center;background:var(--card)}
+.sc-txt .sh2{margin-bottom:1.5rem}
+.sc-txt p{color:var(--mist);font-size:.95rem;line-height:1.9;font-weight:300;margin-bottom:1.1rem}
+.sc-txt strong{color:var(--cream);font-weight:500}
+.sc-nums{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.sc-num .n{font-family:'Cinzel',serif;font-size:2.2rem;color:var(--gold);font-style:italic;line-height:1}
+.sc-num .l{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-top:.3rem}
+
+/* ═══════ GALLERY ═══════ */
+#gallery{background:var(--void);padding:0}
+.gal-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto}
+.gal-item{position:relative;overflow:hidden;cursor:none}
+.gal-item.tall{grid-row:1/3}
+.gal-img{width:100%;height:100%;min-height:300px;object-fit:cover;object-position:center top;display:block;transition:transform 5s ease,filter .4s}
+.gal-item.tall .gal-img{min-height:600px}
+.gal-item:hover .gal-img{transform:scale(1.06);filter:brightness(1.05)}
+.gal-cap{position:absolute;bottom:0;left:0;right:0;padding:1.5rem 1.5rem;background:linear-gradient(transparent,rgba(8,5,4,.92));transform:translateY(100%);transition:transform .35s ease}
+.gal-item:hover .gal-cap{transform:translateY(0)}
+.gal-cap-t{font-family:'Cinzel',serif;font-size:.95rem;color:var(--cream);margin-bottom:.2rem}
+.gal-cap-s{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase}
+
+/* ═══════ HOW IT WORKS ═══════ */
+#process{background:var(--deep)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:3.5rem}
+.step{background:var(--card);padding:2.2rem;position:relative;transition:background .3s}
+.step:hover{background:var(--surface)}
+.step-n{font-family:'Cinzel',serif;font-size:4rem;font-weight:900;color:rgba(200,164,90,.08);line-height:1;margin-bottom:1.2rem;transition:color .3s}
+.step:hover .step-n{color:rgba(200,164,90,.15)}
+.step-t{font-size:.95rem;font-weight:600;color:var(--cream);margin-bottom:.5rem}
+.step-d{font-size:.82rem;color:var(--mist);line-height:1.75;font-weight:300}
+.step-arr{position:absolute;top:50%;right:-12px;transform:translateY(-50%);color:var(--gold);font-size:1.2rem;z-index:10}
+.step:last-child .step-arr{display:none}
+
+/* ═══════ SURVEY ═══════ */
+#survey{background:var(--void);position:relative;overflow:hidden}
+#survey::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.survey-bg{position:absolute;right:0;top:0;bottom:0;width:40%;opacity:.08}
+.survey-bg img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.survey-content{position:relative;z-index:2;max-width:800px}
+.s-card{background:var(--card);border:1px solid var(--border);margin-top:3rem;position:relative}
+.s-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--rose))}
+.s-body{padding:3rem}
+/* Progress */
+.prog{display:flex;align-items:center;gap:1rem;margin-bottom:3rem}
+.prog-bar{flex:1;height:2px;background:var(--ghost);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--rose));border-radius:99px;width:0;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.prog-lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--mist);white-space:nowrap}
+/* Questions */
+.qb{display:none}
+.qb.on{display:block;animation:fadeUp .45s ease forwards}
+.q-num{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.q-tit{font-family:'Cinzel',serif;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:400;line-height:1.2;margin-bottom:.4rem}
+.q-tit em{font-style:italic;color:var(--gold2)}
+.q-sub{font-size:.78rem;color:var(--mist);margin-bottom:1.8rem;font-family:'DM Mono',monospace}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:2rem}
+.opt{background:transparent;border:1px solid rgba(240,232,208,.07);padding:1.1rem 1.3rem;cursor:none;text-align:left;transition:all .22s;position:relative;overflow:hidden}
+.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,164,90,.07),transparent);opacity:0;transition:opacity .22s}
+.opt:hover{border-color:rgba(200,164,90,.3)}
+.opt:hover::before{opacity:1}
+.opt.sel{border-color:var(--gold);background:rgba(200,164,90,.06)}
+.opt.sel::before{opacity:1}
+.opt-i{font-size:1.4rem;display:block;margin-bottom:.4rem}
+.opt-t{font-size:.85rem;font-weight:600;color:var(--cream);display:block;margin-bottom:.1rem;font-family:'Outfit',sans-serif}
+.opt.sel .opt-t{color:var(--gold)}
+.opt-s{font-size:.6rem;color:var(--mist);font-family:'DM Mono',monospace}
+/* Fields */
+.fld{margin-bottom:1.4rem}
+.fld label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+.fld input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(240,232,208,.1);color:var(--cream);padding:.7rem 0;font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:300;outline:none;transition:border-color .2s}
+.fld input:focus{border-color:var(--gold)}
+.fld input::placeholder{color:rgba(240,232,208,.2)}
+/* Nav buttons */
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--ghost)}
+.btn-bk{background:none;border:none;color:var(--mist);font-family:'DM Mono',monospace;font-size:.6rem;cursor:none;letter-spacing:.08em;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.btn-bk:hover{color:var(--cream)}
+.btn-nx{background:linear-gradient(135deg,var(--gold),#8a5e18);color:var(--void);padding:.8rem 2rem;border:none;cursor:none;font-family:'DM Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .22s}
+.btn-nx:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,164,90,.22)}
+.btn-nx:disabled{opacity:.3;transform:none;box-shadow:none}
+.btn-sb{width:100%;background:linear-gradient(135deg,var(--gold),var(--rose));color:var(--void);padding:1.1rem;border:none;cursor:none;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-top:1rem;transition:all .22s}
+.btn-sb:hover{box-shadow:0 14px 40px rgba(200,164,90,.28);transform:translateY(-2px)}
+.btn-sb:disabled{opacity:.5;transform:none;cursor:not-allowed}
+/* AI thinking */
+.thinking{display:none;padding:4rem;text-align:center}
+.thinking.on{display:block}
+.t-dots{display:flex;justify-content:center;gap:10px;margin-bottom:1.3rem}
+.t-dots i{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--gold);animation:dotBounce 1.3s ease infinite}
+.t-dots i:nth-child(2){animation-delay:.15s;background:color-mix(in srgb,var(--gold) 50%,var(--rose))}
+.t-dots i:nth-child(3){animation-delay:.3s;background:var(--rose)}
+.t-txt{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mist)}
+/* Result */
+.result{display:none;padding:3rem;animation:fadeUp .6s ease forwards}
+.result.on{display:block}
+.r-live{display:flex;align-items:center;gap:.6rem;font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
+.r-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:livePulse 1.5s infinite}
+.r-name{font-family:'Cinzel',serif;font-size:1.7rem;margin-bottom:.3rem}
+.r-date{font-family:'DM Mono',monospace;font-size:.54rem;color:var(--mist);margin-bottom:2rem}
+.r-proposal{border-left:2px solid var(--gold);padding-left:1.5rem;font-style:italic;font-size:1.05rem;line-height:1.95;color:rgba(240,232,208,.85);margin-bottom:2rem;white-space:pre-line;font-family:'Cormorant Garamond',serif;font-size:1.15rem}
+.r-pkg{background:rgba(200,164,90,.05);border:1px solid rgba(200,164,90,.18);padding:1.6rem;margin-bottom:1.8rem}
+.r-pkg-tag{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.r-pkg-name{font-size:1.1rem;font-weight:600;color:var(--cream);margin-bottom:.8rem;font-family:'Cinzel',serif}
+.r-inc{display:flex;flex-direction:column;gap:.4rem}
+.r-inc span{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--mist);display:flex;align-items:flex-start;gap:.5rem}
+.r-inc span::before{content:'✓';color:var(--gold);flex-shrink:0}
+.r-note{background:rgba(240,232,208,.02);border:1px solid rgba(240,232,208,.06);padding:1rem 1.2rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.04em;color:var(--mist);line-height:1.7;margin-bottom:2rem}
+.r-ctas{display:flex;gap:.8rem;flex-wrap:wrap}
+
+/* ═══════ WHY ═══════ */
+#why{background:var(--deep)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:3.5rem}
+.why-item{background:var(--card);padding:2.2rem;transition:background .3s}
+.why-item:hover{background:var(--surface)}
+.why-ico{font-size:1.6rem;margin-bottom:1rem}
+.why-t{font-size:.95rem;font-weight:600;color:var(--cream);margin-bottom:.5rem}
+.why-d{font-size:.82rem;color:var(--mist);line-height:1.75;font-weight:300}
+
+/* ═══════ JOURNAL ═══════ */
+#journal{background:var(--void)}
+.journal-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);margin-top:3.5rem}
+.j-feat{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;background:var(--card);overflow:hidden}
+.j-feat-img{width:100%;height:100%;min-height:360px;object-fit:cover;object-position:center top;display:block;transition:transform 5s ease}
+.j-feat:hover .j-feat-img{transform:scale(1.04)}
+.j-feat-txt{padding:3rem;display:flex;flex-direction:column;justify-content:center}
+.j-card{background:var(--card);overflow:hidden;transition:background .3s;cursor:none}
+.j-card:hover{background:var(--surface)}
+.j-card-img{width:100%;height:180px;object-fit:cover;object-position:center top;display:block;transition:transform 5s ease}
+.j-card:hover .j-card-img{transform:scale(1.06)}
+.j-card-body{padding:1.8rem}
+.j-cat{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.j-title{font-family:'Cinzel',serif;font-size:1.05rem;line-height:1.3;color:var(--cream);margin-bottom:.6rem;transition:color .2s}
+.j-card:hover .j-title,.j-feat:hover .j-title{color:var(--gold2)}
+.j-feat .j-title{font-size:1.7rem;margin-bottom:1rem}
+.j-exc{font-size:.82rem;color:var(--mist);line-height:1.7;margin-bottom:1rem;font-weight:300}
+.j-meta{display:flex;justify-content:space-between;padding-top:.8rem;border-top:1px solid var(--ghost)}
+.j-date{font-family:'DM Mono',monospace;font-size:.5rem;color:var(--mist)}
+.j-read{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--gold);text-decoration:none;transition:letter-spacing .2s;cursor:none}
+.j-card:hover .j-read,.j-feat:hover .j-read{letter-spacing:.06em}
+
+/* ═══════ FOOTER ═══════ */
+footer{border-top:1px solid var(--border);padding:3rem 4rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;align-items:center;background:var(--deep)}
+.foot-brand{font-family:'Cinzel',serif;font-size:1.2rem;font-style:italic;color:var(--gold2);margin-bottom:.3rem}
+.foot-tag{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;color:var(--mist)}
+.foot-links{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.foot-links a{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);text-decoration:none;cursor:none;transition:color .2s}
+.foot-links a:hover{color:var(--gold)}
+.foot-right{text-align:right;font-family:'DM Mono',monospace;font-size:.52rem;color:rgba(240,232,208,.25)}
+
+/* ═══════ ADMIN ═══════ */
+#login-page{display:none;min-height:100vh;background:var(--void);justify-content:center;align-items:center;padding:2rem}
+#login-page.on{display:flex}
+.login-box{background:var(--card);border:1px solid var(--border);padding:3rem;max-width:380px;width:100%;position:relative}
+.login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--rose))}
+#admin-page{display:none;min-height:100vh;background:var(--deep);padding:5rem 4rem 3rem}
+#admin-page.on{display:block}
+.adm-h{font-family:'Cinzel',serif;font-size:1.7rem;color:var(--gold);margin-bottom:.3rem}
+.adm-sub{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--mist);margin-bottom:2rem}
+.adm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:2rem}
+.ast{background:var(--card);padding:1.5rem;text-align:center}
+.ast-n{font-family:'Cinzel',serif;font-size:1.9rem;color:var(--gold);font-style:italic}
+.ast-l{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);margin-top:.2rem}
+table{width:100%;border-collapse:collapse}
+th{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding:.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);background:var(--card)}
+td{padding:.7rem 1rem;border-bottom:1px solid var(--ghost);color:var(--cream);font-size:.82rem;vertical-align:middle}
+tr:hover td{background:rgba(200,164,90,.03)}
+.sbadge{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .55rem;border:1px solid;display:inline-block}
+.s-new{color:var(--gold);border-color:var(--gold)}
+.s-contacted{color:#60a5fa;border-color:#60a5fa}
+.s-won{color:#4ade80;border-color:#4ade80}
+.s-lost{color:var(--mist);border-color:var(--mist)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scPulse{0%,100%{opacity:.8}50%{opacity:.15}}
+@keyframes dotBounce{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-13px);opacity:1}}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* MOBILE */
+@media(max-width:1024px){
+  #hero{grid-template-columns:1fr;min-height:100vh}
+  .hero-right{position:absolute;inset:0;opacity:.35}
+  .hero-left{padding:8rem 2rem 4rem;background:transparent;z-index:10;position:relative}
+  nav,nav.scrolled{padding-left:1.5rem;padding-right:1.5rem}
+  .nav-right .nav-link{display:none}
+  .sec{padding:4rem 1.5rem}
+  .sec::before{left:1.5rem;right:1.5rem}
+  .svc-grid,.steps,.why-grid,.journal-grid{grid-template-columns:1fr}
+  .j-feat,.showcase-inner{grid-template-columns:1fr}
+  .j-feat-img{min-height:260px}
+  .sc-img{min-height:300px}
+  .gal-grid{grid-template-columns:1fr 1fr}
+  .gal-item.tall{grid-row:auto}
+  footer{grid-template-columns:1fr;gap:1.5rem;text-align:center;padding:2rem 1.5rem}
+  .foot-links{justify-content:center}
+  .foot-right{text-align:center}
+  .trust{flex-wrap:wrap}
+  .t-item{border-right:none;padding:1rem 1.5rem}
+  .adm-stats{grid-template-columns:1fr 1fr}
+  #admin-page{padding:4rem 1.5rem 2rem}
+  .opts{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="dot"></div>
+<div id="ring"></div>
+
+<!-- ══ MAIN SITE ══ -->
+<div id="site">
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo"><em>Arfinity</em><b> Studio</b></div>
+  <div class="nav-right">
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#showcase" class="nav-link">Work</a>
+    <a href="#journal" class="nav-link">Journal</a>
+    <a href="#survey" class="nav-cta">Get a Free Quote</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <canvas class="hero-canvas-bg" id="hero-cv"></canvas>
+  <div class="hero-left">
+    <div class="h-tag">AI Video & Content Production</div>
+    <h1 class="h1">Content that<br><em>actually sells.</em></h1>
+    <p class="h-p">Professional AI-powered product videos, social media content, and music videos — for brands that want results, not just likes. Fast delivery. Real impact.</p>
+    <div class="h-btns">
+      <a href="#survey" class="btn-main">Get Your Free Quote →</a>
+      <a href="#showcase" class="btn-sec">See Our Work</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://i.ibb.co/xSrgT4PZ/IMG-6157.png" alt="NOOR — Arfinity Studio AI Model" class="hero-img">
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><div class="scroll-txt">Scroll</div></div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust reveal">
+  <div class="t-item"><span class="t-em">⚡</span>48h First Draft</div>
+  <div class="t-item"><span class="t-em">🌍</span>Europe & MENA Clients</div>
+  <div class="t-item"><span class="t-em">🎬</span>AI + Human Direction</div>
+  <div class="t-item"><span class="t-em">💳</span>Pay Per Project</div>
+  <div class="t-item"><span class="t-em">✦</span>No Long Contracts</div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services" class="sec">
+  <div class="reveal">
+    <div class="stag">What We Create</div>
+    <h2 class="sh2">The content your brand<br><em>has been missing.</em></h2>
+    <p class="ssub">Every service is available as a one-time project or monthly package. No retainers. No surprise fees. Just great content that works.</p>
+  </div>
+  <div class="svc-grid reveal">
+    <div class="svc"><div class="svc-bar"></div><span class="svc-icon">📦</span><div class="svc-name">Product Videos & Photos</div><div class="svc-desc">Your product shot cinematically with AI. The kind of visuals that make customers stop scrolling and start buying. Ideal for e-commerce, jewelry, fashion, and food brands.</div><div><span class="svc-pill">E-Commerce</span><span class="svc-pill">Shopify</span><span class="svc-pill">Amazon</span></div></div>
+    <div class="svc"><div class="svc-bar"></div><span class="svc-icon">📱</span><div class="svc-name">Social Media Content</div><div class="svc-desc">Monthly packages of Instagram Reels, TikTok videos, and Stories. Consistent, scroll-stopping content that builds your audience and drives real engagement every week.</div><div><span class="svc-pill">Instagram</span><span class="svc-pill">TikTok</span><span class="svc-pill">Monthly</span></div></div>
+    <div class="svc"><div class="svc-bar"></div><span class="svc-icon">🎵</span><div class="svc-name">AI Music Videos</div><div class="svc-desc">Cinematic, fully AI-produced music videos that would cost €20,000 with a traditional crew — at a fraction of the price. Your music. Your vision. Stunning visuals.</div><div><span class="svc-pill">Musicians</span><span class="svc-pill">Artists</span><span class="svc-pill">YouTube</span></div></div>
+    <div class="svc"><div class="svc-bar"></div><span class="svc-icon">🎬</span><div class="svc-name">Brand Story Films</div><div class="svc-desc">A 60-90 second film that tells your brand's story with emotion and precision. Use it on your website, in ads, or at events. Once made, it works for years.</div><div><span class="svc-pill">Website</span><span class="svc-pill">Ads</span><span class="svc-pill">Events</span></div></div>
+    <div class="svc"><div class="svc-bar"></div><span class="svc-icon">🤳</span><div class="svc-name">UGC-Style Content</div><div class="svc-desc">Authentic, native-feeling content that performs like real user reviews — but produced with AI precision. The highest-converting format on social media right now.</div><div><span class="svc-pill">Meta Ads</span><span class="svc-pill">TikTok Ads</span><span class="svc-pill">Conversions</span></div></div>
+    <div class="svc"><div class="svc-bar"></div><span class="svc-icon">✨</span><div class="svc-name">Full Brand Content Kit</div><div class="svc-desc">Launching or rebranding? Get everything at once — hero film, product visuals, 30 social posts, and ad creatives. The complete package, delivered in 30 days.</div><div><span class="svc-pill">Launch</span><span class="svc-pill">Rebrand</span><span class="svc-pill">Full Kit</span></div></div>
+  </div>
+</section>
+
+<!-- ══ SHOWCASE / NOOR ══ -->
+<section id="showcase" class="sec" style="background:var(--deep);padding-bottom:0">
+  <div class="reveal">
+    <div class="stag">Our Work</div>
+    <h2 class="sh2">This is what AI production<br>looks like when a <em>filmmaker</em> directs it.</h2>
+  </div>
+  <div class="showcase-inner reveal">
+    <div class="sc-img-wrap">
+      <img src="https://i.ibb.co/50kth2R/IMG-6151.png" alt="NOOR Jewelry Campaign" class="sc-img">
+      <div class="sc-overlay"></div>
+      <div class="sc-badge">AI-Generated · 100% Original</div>
+    </div>
+    <div class="sc-txt">
+      <h2 class="sh2">Meet <em>NOOR</em> — our proof of concept.</h2>
+      <p>NOOR is our in-house AI model — designed, directed, and produced entirely by our studio. Every image, every frame, was created using AI tools guided by a trained cinematic eye.</p>
+      <p><strong>This is what we build for our clients.</strong> Not templates. Not stock. Original, cinematic content tailored to your brand — produced faster and more affordably than any traditional studio.</p>
+      <p>From a single product video to a full monthly content plan — we handle everything from creative direction to final delivery.</p>
+      <div class="sc-nums">
+        <div class="sc-num"><div class="n">5×</div><div class="l">Faster than<br>traditional studio</div></div>
+        <div class="sc-num"><div class="n">90%</div><div class="l">Cost reduction<br>vs film crew</div></div>
+        <div class="sc-num"><div class="n">48h</div><div class="l">First draft<br>delivery</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<div class="gal-grid">
+  <div class="gal-item tall">
+    <img src="https://i.ibb.co/hFkwJ2mC/IMG-6150.png" alt="NOOR Diamond Jewelry Campaign" class="gal-img">
+    <div class="gal-cap"><div class="gal-cap-t">Diamond Jewelry Campaign</div><div class="gal-cap-s">Product · Editorial · AI</div></div>
+  </div>
+  <div class="gal-item">
+    <img src="https://i.ibb.co/nMp6P9Q4/IMG-6154.png" alt="NOOR Beauty Editorial" class="gal-img">
+    <div class="gal-cap"><div class="gal-cap-t">Beauty Editorial</div><div class="gal-cap-s">Beauty · Luxury · AI</div></div>
+  </div>
+  <div class="gal-item">
+    <img src="https://i.ibb.co/wFCCKLVV/IMG-6153.png" alt="NOOR Fashion Editorial" class="gal-img">
+    <div class="gal-cap"><div class="gal-cap-t">Fashion Campaign</div><div class="gal-cap-s">Fashion · Brand · AI</div></div>
+  </div>
+  <div class="gal-item">
+    <img src="https://i.ibb.co/xSrgT4PZ/IMG-6157.png" alt="NOOR Dark Portrait" class="gal-img">
+    <div class="gal-cap"><div class="gal-cap-t">Cinematic Portrait</div><div class="gal-cap-s">Editorial · Dark · AI</div></div>
+  </div>
+  <div class="gal-item">
+    <img src="https://i.ibb.co/50kth2R/IMG-6151.png" alt="NOOR Luxury Campaign" class="gal-img">
+    <div class="gal-cap"><div class="gal-cap-t">Luxury Brand Campaign</div><div class="gal-cap-s">Brand · Gold · AI</div></div>
+  </div>
+</div>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section id="process" class="sec">
+  <div class="reveal"><div class="stag">How It Works</div><h2 class="sh2">From brief to delivery — <em>simple.</em></h2></div>
+  <div class="steps reveal">
+    <div class="step"><div class="step-arr">›</div><div class="step-n">01</div><div class="step-t">Tell us what you need</div><div class="step-d">Fill in our 5-question brief. Takes 2 minutes. No phone call required yet — just tell us about your brand and goals.</div></div>
+    <div class="step"><div class="step-arr">›</div><div class="step-n">02</div><div class="step-t">Get your custom plan</div><div class="step-d">We send a personalized proposal with clear package options, timeline, and exactly what's included. No hidden fees.</div></div>
+    <div class="step"><div class="step-arr">›</div><div class="step-n">03</div><div class="step-t">We produce your content</div><div class="step-d">Our AI + human production team gets to work. First draft delivered within 48 hours. You review and give feedback.</div></div>
+    <div class="step"><div class="step-n">04</div><div class="step-t">Revise & deliver</div><div class="step-d">Up to 2 revision rounds included. Final files delivered in all formats you need — for every platform, every size.</div></div>
+  </div>
+</section>
+
+<!-- ══ SURVEY ══ -->
+<section id="survey" class="sec">
+  <div class="survey-bg"><img src="https://i.ibb.co/nMp6P9Q4/IMG-6154.png" alt=""></div>
+  <div class="survey-content">
+    <div class="reveal">
+      <div class="stag">Free Quote</div>
+      <h2 class="sh2">What do you need?<br><em>Tell us in 5 questions.</em></h2>
+      <p class="ssub">A personalized proposal lands in your inbox in minutes. No commitment, no sales call first, no spam.</p>
+    </div>
+    <div class="s-card reveal">
+      <div class="s-body" id="s-body">
+        <div class="prog"><div class="prog-bar"><div class="prog-fill" id="pf"></div></div><div class="prog-lbl" id="pl">Step 1 of 5</div></div>
+
+        <!-- Q1 -->
+        <div class="qb on" id="q1">
+          <div class="q-num">01 / 05</div>
+          <div class="q-tit">What kind of <em>business</em> are you?</div>
+          <div class="q-sub">Pick the closest match to your world</div>
+          <div class="opts">
+            <button class="opt" data-q="1" data-v="ecommerce" onclick="pick(this)"><span class="opt-i">🛍️</span><span class="opt-t">E-Commerce / Online Shop</span><span class="opt-s">I sell products online</span></button>
+            <button class="opt" data-q="1" data-v="musician" onclick="pick(this)"><span class="opt-i">🎵</span><span class="opt-t">Musician / Artist</span><span class="opt-s">I make music or creative art</span></button>
+            <button class="opt" data-q="1" data-v="fashion" onclick="pick(this)"><span class="opt-i">👗</span><span class="opt-t">Fashion / Beauty / Jewelry</span><span class="opt-s">Clothing, accessories, cosmetics</span></button>
+            <button class="opt" data-q="1" data-v="restaurant" onclick="pick(this)"><span class="opt-i">🍽️</span><span class="opt-t">Food / Restaurant / Café</span><span class="opt-s">Food brand or hospitality</span></button>
+            <button class="opt" data-q="1" data-v="startup" onclick="pick(this)"><span class="opt-i">🚀</span><span class="opt-t">Startup / Tech / Service</span><span class="opt-s">App, SaaS, or professional service</span></button>
+            <button class="opt" data-q="1" data-v="other" onclick="pick(this)"><span class="opt-i">✦</span><span class="opt-t">Other Business</span><span class="opt-s">Something else — still welcome!</span></button>
+          </div>
+          <div class="q-nav"><div></div><button class="btn-nx" id="n1" disabled onclick="go(1)">Next →</button></div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="qb" id="q2">
+          <div class="q-num">02 / 05</div>
+          <div class="q-tit">What content do you <em>need most?</em></div>
+          <div class="q-sub">Choose your priority — we do all of these</div>
+          <div class="opts">
+            <button class="opt" data-q="2" data-v="product" onclick="pick(this)"><span class="opt-i">📦</span><span class="opt-t">Product Videos & Photos</span><span class="opt-s">Make my product look stunning</span></button>
+            <button class="opt" data-q="2" data-v="social" onclick="pick(this)"><span class="opt-i">📱</span><span class="opt-t">Social Media Content</span><span class="opt-s">Reels, TikToks, Stories, Posts</span></button>
+            <button class="opt" data-q="2" data-v="music" onclick="pick(this)"><span class="opt-i">🎬</span><span class="opt-t">Music Video</span><span class="opt-s">Cinematic AI music video</span></button>
+            <button class="opt" data-q="2" data-v="brand" onclick="pick(this)"><span class="opt-i">✨</span><span class="opt-t">Brand Story Film</span><span class="opt-s">Tell my brand's story in 60 sec</span></button>
+            <button class="opt" data-q="2" data-v="ugc" onclick="pick(this)"><span class="opt-i">🤳</span><span class="opt-t">UGC-Style Content</span><span class="opt-s">Authentic content that converts</span></button>
+            <button class="opt" data-q="2" data-v="all" onclick="pick(this)"><span class="opt-i">⚡</span><span class="opt-t">Full Content Kit</span><span class="opt-s">I need everything, let's talk</span></button>
+          </div>
+          <div class="q-nav"><button class="btn-bk" onclick="back(2)">← Back</button><button class="btn-nx" id="n2" disabled onclick="go(2)">Next →</button></div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="qb" id="q3">
+          <div class="q-num">03 / 05</div>
+          <div class="q-tit">Which <em>platform</em> matters most to you?</div>
+          <div class="q-sub">Where will this content live?</div>
+          <div class="opts">
+            <button class="opt" data-q="3" data-v="instagram" onclick="pick(this)"><span class="opt-i">📸</span><span class="opt-t">Instagram</span><span class="opt-s">Feed, Reels, Stories</span></button>
+            <button class="opt" data-q="3" data-v="tiktok" onclick="pick(this)"><span class="opt-i">🎵</span><span class="opt-t">TikTok</span><span class="opt-s">Short-form viral content</span></button>
+            <button class="opt" data-q="3" data-v="youtube" onclick="pick(this)"><span class="opt-i">▶️</span><span class="opt-t">YouTube</span><span class="opt-s">Long-form or music video</span></button>
+            <button class="opt" data-q="3" data-v="ecommerce_listing" onclick="pick(this)"><span class="opt-i">🛒</span><span class="opt-t">Amazon / Etsy / Shopify</span><span class="opt-s">Product listing visuals</span></button>
+            <button class="opt" data-q="3" data-v="website" onclick="pick(this)"><span class="opt-i">🌐</span><span class="opt-t">Website / Ads</span><span class="opt-s">Landing pages, paid ads</span></button>
+            <button class="opt" data-q="3" data-v="all" onclick="pick(this)"><span class="opt-i">🚀</span><span class="opt-t">All Platforms</span><span class="opt-s">Optimized for every channel</span></button>
+          </div>
+          <div class="q-nav"><button class="btn-bk" onclick="back(3)">← Back</button><button class="btn-nx" id="n3" disabled onclick="go(3)">Next →</button></div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="qb" id="q4">
+          <div class="q-num">04 / 05</div>
+          <div class="q-tit">How often do you need <em>new content?</em></div>
+          <div class="q-sub">This helps us suggest the right package for you</div>
+          <div class="opts" style="grid-template-columns:1fr 1fr">
+            <button class="opt" data-q="4" data-v="single" onclick="pick(this)"><span class="opt-i">1️⃣</span><span class="opt-t">One-Time Project</span><span class="opt-s">I need something specific now</span></button>
+            <button class="opt" data-q="4" data-v="monthly" onclick="pick(this)"><span class="opt-i">📅</span><span class="opt-t">Every Month</span><span class="opt-s">Consistent ongoing content</span></button>
+            <button class="opt" data-q="4" data-v="launch" onclick="pick(this)"><span class="opt-i">🔥</span><span class="opt-t">Big Launch / Campaign</span><span class="opt-s">Major project, one time</span></button>
+            <button class="opt" data-q="4" data-v="custom" onclick="pick(this)"><span class="opt-i">💬</span><span class="opt-t">Not Sure Yet</span><span class="opt-s">Let's figure it out together</span></button>
+          </div>
+          <div class="q-nav"><button class="btn-bk" onclick="back(4)">← Back</button><button class="btn-nx" id="n4" disabled onclick="go(4)">Next →</button></div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="qb" id="q5">
+          <div class="q-num">05 / 05</div>
+          <div class="q-tit">Almost done — where do we <em>send your plan?</em></div>
+          <div class="q-sub">Free, personalized proposal in minutes. No spam, ever.</div>
+          <div class="fld"><label>Your Name</label><input type="text" id="f-name" placeholder="What should we call you?"></div>
+          <div class="fld"><label>Email Address</label><input type="email" id="f-email" placeholder="your@email.com"></div>
+          <div class="fld"><label>Tell us about your project (optional)</label><input type="text" id="f-desc" placeholder="e.g. I sell handmade jewelry and need product videos for Instagram..."></div>
+          <div class="q-nav"><button class="btn-bk" onclick="back(5)">← Back</button></div>
+          <button class="btn-sb" id="btn-sub" onclick="submitForm()">Send Me My Free Proposal ✦</button>
+        </div>
+      </div>
+
+      <div class="thinking" id="thinking">
+        <div class="t-dots"><i></i><i></i><i></i></div>
+        <div class="t-txt">Preparing your personalized content plan...</div>
+      </div>
+
+      <div class="result" id="result">
+        <div class="r-live"><span class="r-dot"></span>Your Personalized Content Proposal — Ready</div>
+        <div class="r-name" id="r-name"></div>
+        <div class="r-date" id="r-date"></div>
+        <div class="r-proposal" id="r-proposal"></div>
+        <div class="r-pkg">
+          <div class="r-pkg-tag">Recommended Package</div>
+          <div class="r-pkg-name" id="r-pkg-name"></div>
+          <div class="r-inc" id="r-inc"></div>
+        </div>
+        <div class="r-note">📩 Your proposal has also been sent to your email. We'll follow up within 24 hours — no sales pressure, just a genuine conversation about your content needs.</div>
+        <div class="r-ctas">
+          <a href="mailto:support@arfinity.studio" class="btn-main">Book a Free Discovery Call →</a>
+          <a href="#journal" class="btn-sec">Read Our Journal</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY US ══ -->
+<section id="why" class="sec">
+  <div class="reveal"><div class="stag">Why Arfinity</div><h2 class="sh2">Professional studio quality.<br><em>Without the studio overhead.</em></h2></div>
+  <div class="why-grid reveal">
+    <div class="why-item"><div class="why-ico">⚡</div><div class="why-t">Incredibly Fast</div><div class="why-d">First drafts in 48 hours. Final delivery in 5 business days. Traditional studios take weeks — we don't make you wait.</div></div>
+    <div class="why-item"><div class="why-ico">💰</div><div class="why-t">Transparent Pricing</div><div class="why-d">No surprise costs. No retainers. Pay per project or choose a monthly plan. You always know exactly what you're getting.</div></div>
+    <div class="why-item"><div class="why-ico">🎬</div><div class="why-t">Cinematic Quality</div><div class="why-d">Every piece is directed by a trained filmmaker using advanced AI tools — not just prompts thrown into software and hoping for the best.</div></div>
+    <div class="why-item"><div class="why-ico">🌍</div><div class="why-t">Europe & MENA Focus</div><div class="why-d">Based in Istanbul, we deeply understand both European aesthetics and Middle Eastern markets. Your content speaks to both worlds.</div></div>
+    <div class="why-item"><div class="why-ico">🔄</div><div class="why-t">Revisions Included</div><div class="why-d">Every package includes revision rounds. We don't consider a project complete until you're genuinely happy with the result.</div></div>
+    <div class="why-item"><div class="why-ico">🤖</div><div class="why-t">AI + Human Expertise</div><div class="why-d">AI handles the production speed. A human creative director ensures everything looks, feels, and performs the way it should.</div></div>
+  </div>
+</section>
+
+<!-- ══ JOURNAL ══ -->
+<section id="journal" class="sec" style="background:var(--deep)">
+  <div class="reveal"><div class="stag">Journal</div><h2 class="sh2">Stories, tips & <em>creative thinking.</em></h2></div>
+  <div class="journal-grid reveal">
+    <div class="j-feat">
+      <img src="https://i.ibb.co/wFCCKLVV/IMG-6153.png" alt="Journal Featured" class="j-feat-img">
+      <div class="j-feat-txt">
+        <div class="j-cat">Featured</div>
+        <div class="j-title">Why your product photos are killing your sales — and how AI fixed it for our clients</div>
+        <div class="j-exc">The difference between a product that sells and one that sits in inventory isn't the product itself. It's the visual. Here's what we learned producing content for 50+ brands across Europe and the Middle East.</div>
+        <div class="j-meta"><span class="j-date">May 2026</span><a href="#" class="j-read">Read →</a></div>
+      </div>
+    </div>
+    <div class="j-card">
+      <img src="https://i.ibb.co/nMp6P9Q4/IMG-6154.png" alt="" class="j-card-img">
+      <div class="j-card-body">
+        <div class="j-cat">Social Media</div>
+        <div class="j-title">The only 3 types of Reels that actually convert in 2026</div>
+        <div class="j-exc">Stop posting and hoping. Start producing with intent.</div>
+        <div class="j-meta"><span class="j-date">Apr 2026</span><a href="#" class="j-read">Read →</a></div>
+      </div>
+    </div>
+    <div class="j-card">
+      <img src="https://i.ibb.co/hFkwJ2mC/IMG-6150.png" alt="" class="j-card-img">
+      <div class="j-card-body">
+        <div class="j-cat">Music & Film</div>
+        <div class="j-title">How we made a music video that looks like it cost €50,000</div>
+        <div class="j-exc">A behind-the-scenes look at our AI filmmaking process.</div>
+        <div class="j-meta"><span class="j-date">Apr 2026</span><a href="#" class="j-read">Read →</a></div>
+      </div>
+    </div>
+    <div class="j-card">
+      <img src="https://i.ibb.co/50kth2R/IMG-6151.png" alt="" class="j-card-img">
+      <div class="j-card-body">
+        <div class="j-cat">For Brands</div>
+        <div class="j-title">Monthly content packages vs one-off shoots: which is right for you?</div>
+        <div class="j-exc">A simple framework to invest your content budget wisely.</div>
+        <div class="j-meta"><span class="j-date">Mar 2026</span><a href="#" class="j-read">Read →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="reveal">
+  <div><div class="foot-brand">Arfinity Studio</div><div class="foot-tag">AI Video & Content Production · Istanbul · Worldwide</div></div>
+  <div class="foot-links"><a href="#services">Services</a><a href="#showcase">Work</a><a href="#survey">Get a Quote</a><a href="#journal">Journal</a><a href="mailto:support@arfinity.studio">Contact</a><a href="#" onclick="openAdmin(event)">Admin</a></div>
+  <div class="foot-right">© 2026 Arfinity Studio<br>All rights reserved</div>
+</footer>
+
+</div><!-- /site -->
+
+<!-- ══ LOGIN ══ -->
+<div id="login-page">
+  <div class="login-box">
+    <div style="font-family:'Cinzel',serif;font-size:1.5rem;color:var(--gold);margin-bottom:.3rem">Dashboard</div>
+    <div style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--mist);margin-bottom:2rem">Arfinity Studio Admin</div>
+    <div class="fld"><label>Password</label><input type="password" id="a-pw" placeholder="Admin password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn-sb" onclick="doLogin()">Enter Dashboard →</button>
+    <div id="a-err" style="display:none;color:var(--rose);font-family:'DM Mono',monospace;font-size:.62rem;margin-top:.8rem;text-align:center">Incorrect password</div>
+    <button class="btn-bk" style="margin-top:1.5rem;width:100%;justify-content:center;display:flex" onclick="closeAdmin()">← Back to Site</button>
+  </div>
+</div>
+
+<!-- ══ ADMIN ══ -->
+<div id="admin-page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+    <div><div class="adm-h">Lead Dashboard</div><div class="adm-sub">Arfinity Studio · All inquiries</div></div>
+    <div style="display:flex;gap:1rem">
+      <button class="btn-nx" onclick="loadLeads()" style="font-size:.6rem;padding:.55rem 1.2rem">↻ Refresh</button>
+      <button class="btn-bk" onclick="closeAdmin()">← Exit</button>
+    </div>
+  </div>
+  <div class="adm-stats">
+    <div class="ast"><div class="ast-n" id="st-t">—</div><div class="ast-l">Total Leads</div></div>
+    <div class="ast"><div class="ast-n" id="st-n">—</div><div class="ast-l">New Today</div></div>
+    <div class="ast"><div class="ast-n" id="st-w">—</div><div class="ast-l">Won</div></div>
+    <div class="ast"><div class="ast-n" id="st-p">—</div><div class="ast-l">In Progress</div></div>
+  </div>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Name</th><th>Email</th><th>Business</th><th>Needs</th><th>Status</th><th>Date</th><th>Update</th></tr></thead>
+      <tbody id="leads-tb"><tr><td colspan="7" style="text-align:center;color:var(--mist);padding:3rem">Loading leads...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ───
+const SB='https://gygdaeijszsljrjsiybd.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5Z2RhZWlqc3pzbGpyanNpeWJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNjM4NzUsImV4cCI6MjA5NTczOTg3NX0.axYvBX9crlOj3MGi5iUKnb97Zq8sBn45SNnCKGH8eqA';
+const FN=`${SB}/functions/v1/submit-lead`;
+const APW='arfinity2026';
+
+// ─── CURSOR ───
+const dot=document.getElementById('dot'),ring=document.getElementById('ring');
+let rx=0,ry=0;
+document.addEventListener('mousemove',e=>{dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';rx=e.clientX;ry=e.clientY;});
+setInterval(()=>{ring.style.left=rx+'px';ring.style.top=ry+'px';},90);
+document.querySelectorAll('button,a,.opt,.svc,.j-card,.why-item,.step,.gal-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='42px';ring.style.height='42px';ring.style.borderColor='rgba(200,164,90,.85)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='30px';ring.style.height='30px';ring.style.borderColor='rgba(200,164,90,.5)';});
+});
+
+// ─── NAV ───
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
+
+// ─── REVEAL ───
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.06});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ─── HERO CANVAS ───
+(()=>{
+  const c=document.getElementById('hero-cv'),ctx=c.getContext('2d');
+  let t=0;const rs=()=>{c.width=innerWidth;c.height=innerHeight};rs();window.addEventListener('resize',rs);
+  const pts=Array.from({length:80},()=>({x:Math.random(),y:Math.random(),r:Math.random()*.6+.15,a:Math.random()*.3+.05}));
+  function draw(){
+    const W=c.width,H=c.height;ctx.fillStyle='rgba(8,5,4,.04)';ctx.fillRect(0,0,W,H);
+    pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(200,164,90,${p.a*.4*(.5+.5*Math.sin(t*.015+p.x*60))})`;ctx.fill();});
+    t++;requestAnimationFrame(draw);
+  }draw();
+})();
+
+// ─── SURVEY ───
+const ans={};let curr=1;
+function setP(s){document.getElementById('pf').style.width=((s-1)/5*100)+'%';document.getElementById('pl').textContent=`Step ${s} of 5`;}
+function pick(b){
+  const q=b.dataset.q,v=b.dataset.v;
+  document.querySelectorAll(`[data-q="${q}"]`).forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');ans['q'+q]=v;
+  const n=document.getElementById('n'+q);if(n)n.disabled=false;
+}
+function go(f){document.getElementById('q'+f).classList.remove('on');const nx=document.getElementById('q'+(f+1));nx.style.display='block';nx.classList.add('on');curr=f+1;setP(curr);}
+function back(f){document.getElementById('q'+f).classList.remove('on');document.getElementById('q'+(f-1)).classList.add('on');curr=f-1;setP(curr);}
+
+const PKGS={
+  single:{n:'Single Content Package',i:['3 professional AI videos or photos','All platform-optimized formats','2 rounds of revisions','Delivery within 5 business days']},
+  monthly:{n:'Monthly Content Plan',i:['12 pieces of content per month','Mix of videos, reels & photos','Priority 48h first drafts','Dedicated creative strategy session']},
+  launch:{n:'Brand Launch Package',i:['20+ pieces of content','Hero film or music video included','Ad-ready formats for all platforms','Full 30-day delivery timeline']},
+  custom:{n:'Custom Studio Package',i:['Tailored to your exact needs','Volume pricing available','Direct access to creative director','Flexible timeline & deliverables']},
+};
+
+async function submitForm(){
+  const name=document.getElementById('f-name').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const desc=document.getElementById('f-desc').value.trim();
+  if(!name||!email){document.getElementById('f-email').style.borderColor='var(--rose)';document.getElementById('f-email').focus();return;}
+  const btn=document.getElementById('btn-sub');btn.disabled=true;
+  document.getElementById('s-body').style.display='none';
+  document.getElementById('thinking').classList.add('on');
+  const pkg=PKGS[ans.q4]||PKGS.single;
+  try{
+    const res=await fetch(FN,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,business_type:ans.q1,content_type:ans.q2,platform:ans.q3,frequency:ans.q4,description:desc})});
+    const d=await res.json();
+    showResult(name,d.proposal_text||fallback(name),d.package_name||pkg.n,d.package_includes||pkg.i);
+  }catch{showResult(name,fallback(name),pkg.n,pkg.i);}
+}
+
+function fallback(name){
+  const b={ecommerce:'e-commerce business',musician:'musician',fashion:'fashion brand',restaurant:'food brand',startup:'startup',other:'business'};
+  const c={product:'product videos and photos',social:'social media content',music:'a music video',brand:'a brand story film',ugc:'UGC-style content',all:'a complete content kit'};
+  return `Dear ${name},\n\nLooking at what you've shared, I can already see exactly what your ${b[ans.q1]||'brand'} needs — and creating ${c[ans.q2]||'content'} for brands like yours is precisely where we do our best work. We've done this for dozens of similar businesses and the results are consistent: more attention, more trust, more sales.\n\nLet's build something that genuinely works for you.\n\n— Yasaman, Arfinity Studio`;
+}
+
+function showResult(name,text,pkgName,includes){
+  document.getElementById('thinking').classList.remove('on');
+  document.getElementById('r-name').textContent=`${name}'s Content Plan`;
+  document.getElementById('r-date').textContent='Prepared '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('r-proposal').textContent=text;
+  document.getElementById('r-pkg-name').textContent=pkgName;
+  document.getElementById('r-inc').innerHTML=(includes||[]).map(i=>`<span>${i}</span>`).join('');
+  const r=document.getElementById('result');r.classList.add('on');
+  r.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ─── ADMIN ───
+function openAdmin(e){if(e)e.preventDefault();document.getElementById('site').style.display='none';if(sessionStorage.getItem('aria')='1'){document.getElementById('admin-page').classList.add('on');loadLeads();}else{document.getElementById('login-page').classList.add('on');}}
+function closeAdmin(){document.getElementById('login-page').classList.remove('on');document.getElementById('admin-page').classList.remove('on');document.getElementById('site').style.display='block';}
+function doLogin(){const pw=document.getElementById('a-pw').value;if(pw===APW){sessionStorage.setItem('aria','1');document.getElementById('login-page').classList.remove('on');document.getElementById('admin-page').classList.add('on');document.getElementById('a-err').style.display='none';loadLeads();}else{document.getElementById('a-err').style.display='block';}}
+async function loadLeads(){
+  const tb=document.getElementById('leads-tb');
+  try{
+    const r=await fetch(`${SB}/rest/v1/leads?order=created_at.desc&limit=100`,{headers:{apikey:KEY,'Authorization':'Bearer '+KEY}});
+    const d=await r.json();
+    if(!Array.isArray(d)||!d.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--mist);padding:3rem">No leads yet — share your site!</td></tr>';updateStats([]);return;}
+    updateStats(d);
+    tb.innerHTML=d.map(l=>`<tr><td style="font-weight:500">${l.name}</td><td style="font-family:'DM Mono',monospace;font-size:.62rem">${l.email}</td><td style="font-family:'DM Mono',monospace;font-size:.6rem">${l.who_are_you||'—'}</td><td style="font-family:'DM Mono',monospace;font-size:.6rem">${l.main_goal||'—'}</td><td><span class="sbadge s-${l.status||'new'}">${l.status||'new'}</span></td><td style="font-family:'DM Mono',monospace;font-size:.56rem">${new Date(l.created_at).toLocaleDateString()}</td><td><select style="background:var(--card);color:var(--cream);border:1px solid var(--border);font-family:'DM Mono',monospace;font-size:.52rem;padding:.2rem;cursor:pointer" onchange="upd('${l.id}',this.value)">${['new','contacted','proposal_sent','won','lost'].map(s=>`<option value="${s}"${l.status===s?' selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('');
+  }catch{tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--rose);padding:2rem">Error loading leads.</td></tr>';}
+}
+function updateStats(d){document.getElementById('st-t').textContent=d.length;const td=new Date().toDateString();document.getElementById('st-n').textContent=d.filter(l=>new Date(l.created_at).toDateString()===td).length;document.getElementById('st-w').textContent=d.filter(l=>l.status==='won').length;document.getElementById('st-p').textContent=d.filter(l=>['contacted','proposal_sent'].includes(l.status)).length;}
+async function upd(id,status){await fetch(`${SB}/rest/v1/leads?id=eq.${id}`,{method:'PATCH',headers:{apikey:KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({status})});}
+</script>
+</body>
+</html>
