@@ -893,3 +893,126 @@ body::after {
   .journey .media { transform: none !important; }
   .journey .progress { display: none !important; }
 }
+
+/* ── Generated motion layers (no photos needed) ─────────────────────────── */
+.fx { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+
+/* Opening: slow floating light motes */
+.fx-motes {
+  background-image:
+    radial-gradient(circle, rgba(240, 208, 128, .9) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(240, 208, 128, .6) 0 1px, transparent 1.4px);
+  background-size: 220px 260px, 340px 300px;
+  background-position: 0 0, 120px 80px;
+  opacity: .55;
+  animation: motes 40s linear infinite;
+}
+@keyframes motes { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-120px, -260px, 0); } }
+
+/* World 01 The Surreal: a gold sun, monoliths hovering over sand, a horizon */
+.fx-surreal .orb {
+  position: absolute;
+  right: 14%;
+  top: 22%;
+  width: min(34vw, 460px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, #fff3cf 0%, #e7c57a 22%, rgba(200, 164, 90, .35) 48%, transparent 70%);
+  filter: blur(2px);
+  animation: float 9s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+.fx-surreal .mono {
+  position: absolute;
+  bottom: 28%;
+  width: 56px;
+  background: linear-gradient(180deg, rgba(240, 208, 128, .55), rgba(20, 14, 8, .95) 70%);
+  border: 1px solid rgba(240, 208, 128, .35);
+  box-shadow: 0 0 40px rgba(200, 164, 90, .2);
+  animation: hover 11s ease-in-out infinite alternate;
+}
+.fx-surreal .m1 { right: 30%; height: 42vh; animation-delay: -2s; }
+.fx-surreal .m2 { right: 22%; height: 26vh; width: 36px; bottom: 26%; animation-delay: -6s; }
+.fx-surreal .m3 { right: 8%; height: 56vh; width: 74px; bottom: 30%; animation-delay: -4s; }
+.fx-surreal .horizon {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 28%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240, 208, 128, .7) 30%, rgba(240, 208, 128, .7) 70%, transparent);
+  animation: breathe 6s ease-in-out infinite;
+}
+@keyframes float { from { transform: translate3d(0, -14px, 0) scale(1); } to { transform: translate3d(-10px, 18px, 0) scale(1.05); } }
+@keyframes hover { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, -22px, 0); } }
+@keyframes breathe { 0%, 100% { opacity: .35; } 50% { opacity: .9; } }
+
+/* World 02 The Dream: drifting pastel mist and rising particles */
+.fx-dream .mist {
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  max-width: 900px;
+  max-height: 900px;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: .5;
+  mix-blend-mode: screen;
+}
+.fx-dream .mi1 { right: -10%; top: -15%; background: radial-gradient(closest-side, rgba(213, 194, 236, .55), transparent 70%); animation: drift 22s ease-in-out infinite alternate; }
+.fx-dream .mi2 { right: 10%; bottom: -25%; background: radial-gradient(closest-side, rgba(185, 208, 238, .5), transparent 70%); animation: drift 28s ease-in-out infinite alternate-reverse; }
+.fx-dream .mi3 { left: 30%; top: 30%; width: 40vw; height: 40vw; background: radial-gradient(closest-side, rgba(244, 211, 218, .35), transparent 70%); animation: drift 19s ease-in-out infinite alternate; }
+.fx-dream .motes {
+  position: absolute;
+  inset: -20% 0;
+  background-image:
+    radial-gradient(circle, rgba(244, 242, 250, .85) 0 1.2px, transparent 2px),
+    radial-gradient(circle, rgba(185, 208, 238, .7) 0 1px, transparent 1.8px);
+  background-size: 180px 220px, 260px 300px;
+  opacity: .5;
+  animation: rise 30s linear infinite;
+}
+@keyframes drift { from { transform: translate3d(-40px, 20px, 0) scale(1); } to { transform: translate3d(50px, -30px, 0) scale(1.12); } }
+@keyframes rise { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-60px, -220px, 0); } }
+
+/* World 03 The Future: orbiting rings and a pulse of light */
+.fx-future .ring {
+  position: absolute;
+  right: 12%;
+  top: 50%;
+  width: min(44vw, 560px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(92, 225, 255, .4);
+  transform: translate(50%, -50%) rotateX(72deg);
+  animation: orbit 16s linear infinite;
+}
+.fx-future .r2 { width: min(32vw, 420px); border-color: rgba(185, 198, 214, .35); animation-duration: 11s; animation-direction: reverse; }
+.fx-future .r3 { width: min(56vw, 720px); border-style: dashed; border-color: rgba(92, 225, 255, .18); animation-duration: 24s; }
+.fx-future .pulse {
+  position: absolute;
+  right: 12%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #5ce1ff;
+  box-shadow: 0 0 24px 6px rgba(92, 225, 255, .55);
+  transform: translate(50%, -50%);
+  animation: glow 3s ease-in-out infinite;
+}
+@keyframes orbit { from { transform: translate(50%, -50%) rotateX(72deg) rotateZ(0deg); } to { transform: translate(50%, -50%) rotateX(72deg) rotateZ(360deg); } }
+@keyframes glow { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+
+/* Mobile: keep it light. Fewer, smaller effects; no ring orbit. */
+@media (max-width: 760px) {
+  .fx-surreal .orb { width: 70vw; right: -10%; top: 12%; }
+  .fx-surreal .m3, .fx-surreal .m1 { width: 34px; }
+  .fx-future .r3 { display: none; }
+  .fx-future .ring { width: 80vw; right: -20%; }
+  .fx-future .pulse { right: 4%; }
+  .fx-dream .mi3 { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx * { animation: none !important; }
+}
