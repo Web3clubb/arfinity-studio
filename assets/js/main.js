@@ -5,7 +5,7 @@
 (() => {
   'use strict';
 
-  const ENDPOINT = '/.netlify/functions/submit-lead';
+  const ENDPOINT = '/api/submit-lead';
   const IS_LOCAL = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 

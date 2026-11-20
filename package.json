@@ -8,6 +8,6 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node --test tests/leads.test.mjs"
+    "test": "node --test tests/leads.test.mjs tests/vercel-api.test.mjs"
   }
 }
