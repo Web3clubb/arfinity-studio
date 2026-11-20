@@ -178,6 +178,14 @@ test('submit: honeypot returns a silent success and stores nothing', async () =>
   assert.equal(calls.length, 0);
 });
 
+test('supabaseConfig: strips a pasted /rest/v1 suffix', async () => {
+  const { supabaseConfig } = await import('../netlify/lib/leads.mjs');
+  for (const raw of ['https://p.supabase.co', 'https://p.supabase.co/', 'https://p.supabase.co/rest/v1', 'https://p.supabase.co/rest/v1/']) {
+    process.env.SUPABASE_URL = raw;
+    assert.equal(supabaseConfig().url, 'https://p.supabase.co', raw);
+  }
+});
+
 test('submit: missing Supabase credentials return 503, never a success', async () => {
   delete process.env.SUPABASE_SERVICE_ROLE_KEY;
   const calls = fakeFetch([]);

@@ -153,7 +153,10 @@ export function supabaseConfig() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
-  return { url: url.replace(/\/+$/, ''), key };
+  // Accept "https://x.supabase.co", "https://x.supabase.co/" and "https://x.supabase.co/rest/v1".
+  // Pasting the REST path into the env var used to produce /rest/v1/rest/v1 and a 404.
+  const clean = url.trim().replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
+  return { url: clean, key };
 }
 
 async function sbRequest(config, path, { method = 'GET', body, prefer } = {}) {
