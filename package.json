@@ -1,0 +1,13 @@
+{
+  "name": "arfinity-studio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "ARFINITY Studio landing page. Static HTML on Netlify, with lead capture in Netlify Functions.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test tests/leads.test.mjs"
+  }
+}
